@@ -106,6 +106,8 @@ The following is the initial directory structure generated in the previous secti
     ├── notebook                          <- This directory sotres the ipynb files saved in Jupyter Notebook.
     ├── requirements.txt                  <- Libraries needed to run experiments. The library listed in this file
     │                                        are installed in the Docker container.
+    ├── reports                           <- Generated analysis as HTML, PDF, LaTeX, etc.
+    │   └── figures                       <- Generated graphics and figures to be used in reporting
     └── scripts                           <- Users add the script files to generate model files or run evaluation.
 
 
