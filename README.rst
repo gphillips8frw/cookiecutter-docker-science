@@ -85,10 +85,16 @@ The following is the initial directory structure generated in the previous secti
 
     ├── Makefile                          <- Makefile contains many targets such as create docker container or
     │                                        get input files.
+    ├── README.md                         <- The top-level README for developers using this project.
     ├── config                            <- This directory contains configuration files used in scripts
     │   │                                    or Jupyter Notebook.
     │   └── jupyter_config.py
     ├── data                              <- data directory contains the input resources.
+    │   ├── external                      <- Data from third party sources.
+    │   ├── interim                       <- Intermediate data that has been transformed.
+    │   ├── processed                     <- The final, canonical data sets for modeling.
+    │   └── raw                           <- The original, immutable data dump.
+    │     
     ├── docker                            <- docker directory contains Dockerfile.
     │   └── Dockerfile                    <- Dockerfile have the container settings. Users modify Dockerfile
     │                                        if additional library is needed for experiments.
