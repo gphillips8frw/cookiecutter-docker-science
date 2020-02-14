@@ -85,22 +85,36 @@ The following is the initial directory structure generated in the previous secti
 
     ├── Makefile                          <- Makefile contains many targets such as create docker container or
     │                                        get input files.
+    ├── README.md                         <- The top-level README for developers using this project.
     ├── config                            <- This directory contains configuration files used in scripts
     │   │                                    or Jupyter Notebook.
     │   └── jupyter_config.py
     ├── data                              <- data directory contains the input resources.
+    │   ├── external                      <- Data from third party sources.
+    │   ├── interim                       <- Intermediate data that has been transformed.
+    │   ├── processed                     <- The final, canonical data sets for modeling.
+    │   └── raw                           <- The original, immutable data dump.
+    │     
     ├── docker                            <- docker directory contains Dockerfile.
     │   └── Dockerfile                    <- Dockerfile have the container settings. Users modify Dockerfile
     │                                        if additional library is needed for experiments.
-    ├── model                             <- model directory store the model files created in the experiments.
+    ├── models                            <- model directory store the model files created in the experiments.
+    ├── setup.py                          <- Make this project pip installable with `pip install -e`
     ├── my_data_science_project           <- cookie-cutter-docker-science creates the directory whose name is same
     │   │                                    as project name. In this directory users puts python files used in scripts
     │   │                                    or Jupyter Notebook.
-    │   └── __init__.py
-    ├── notebook                          <- This directory sotres the ipynb files saved in Jupyter Notebook.
+    │   ├── __init__.py                   <- Makes src a Python module
+    │   ├── data                          <- Scripts to download or generate data
+    │   ├── features                      <- Scripts to turn raw data into features for modeling
+    │   ├── models                        <- Scripts to train models and then use trained models to make
+    │   │                                    predictions
+    │   └── visualisation                 <- Scripts to create exploratory and results oriented visualizations
+    ├── notebooks                         <- This directory sotres the ipynb files saved in Jupyter Notebook.
     ├── requirements.txt                  <- Libraries needed to run experiments. The library listed in this file
     │                                        are installed in the Docker container.
-    └── scripts                           <- Users add the script files to generate model files or run evaluation.
+    └── reports                           <- Generated analysis as HTML, PDF, LaTeX, etc.
+        └── figures                       <- Generated graphics and figures to be used in reporting
+
 
 
 Makefile targets
