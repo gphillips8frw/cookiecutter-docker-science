@@ -56,8 +56,8 @@ export PRINT_HELP_PYSCRIPT
 export START_DOCKER_CONTAINER
 export PYTHONPATH=$PYTHONPATH:$(PWD)
 export PROJECT_NAME={{ cookiecutter.project_slug }}
-export IMAGE_NAME=$(PROJECT_NAME)-image
-export CONTAINER_NAME=$(PROJECT_NAME)-container
+export IMAGE_NAME=$(shell echo $(PROJECT_NAME) | tr A-Z a-z)-image
+export CONTAINER_NAME=$(shell echo $(PROJECT_NAME) | tr A-Z a-z)-container
 export DATA_SOURCE={{ cookiecutter.data_source }}
 export JUPYTER_HOST_PORT={{ cookiecutter.jupyter_host_port }}
 export JUPYTER_CONTAINER_PORT=8888
