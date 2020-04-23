@@ -56,13 +56,16 @@ export PRINT_HELP_PYSCRIPT
 export START_DOCKER_CONTAINER
 export PYTHONPATH=$PYTHONPATH:$(PWD)
 export PROJECT_NAME={{ cookiecutter.project_slug }}
-export IMAGE_NAME=$(shell echo $(PROJECT_NAME) | tr A-Z a-z)-image
-export CONTAINER_NAME=$(shell echo $(PROJECT_NAME) | tr A-Z a-z)-container
+export MODE=dev
+export BASE_DOCKERFILE=docker/Dockerfile
+export DOCKERFILE=$(BASE_DOCKERFILE).$(MODE)
+export BASE_IMAGE_NAME=$(PROJECT_NAME)-image-base
+export IMAGE_NAME=$(PROJECT_NAME)-$(MODE)-image
+export CONTAINER_NAME=$(PROJECT_NAME)-$(MODE)-container
 export DATA_SOURCE={{ cookiecutter.data_source }}
 export JUPYTER_HOST_PORT={{ cookiecutter.jupyter_host_port }}
 export JUPYTER_CONTAINER_PORT=8888
 export PYTHON=python3
-export DOCKERFILE=docker/Dockerfile
 
 ###########################################################################################################
 ## ADD TARGETS SPECIFIC TO "{{ cookiecutter.project_name }}"
@@ -88,10 +91,12 @@ sync-from-source: ## download data data source to local envrionment
 {% endif %}
 
 init-docker: ## initialize docker image
-	$(DOCKER) build -t $(IMAGE_NAME) -f $(DOCKERFILE) --build-arg UID=$(shell id -u) .
+	$(DOCKER) build -t $(BASE_IMAGE_NAME) -f $(BASE_DOCKERFILE) --build-arg UID=$(shell id -u) .
+	$(DOCKER) build -t $(IMAGE_NAME) -f $(DOCKERFILE) .
 
-init-docker-no-cache: ## initialize docker image without cachhe
-	$(DOCKER) build --no-cache -t $(IMAGE_NAME) -f $(DOCKERFILE) --build-arg UID=$(shell id -u) .
+init-docker-no-cache: ## initialize docker image without cache
+	$(DOCKER) build --no-cache -t $(BASE_IMAGE_NAME) -f $(BASE_DOCKERFILE) --build-arg UID=$(shell id -u) .
+	$(DOCKER) build -t $(IMAGE_NAME) -f $(DOCKERFILE) .
 
 sync-to-source: ## sync local data to data source
 {%- if cookiecutter.data_source_type == 's3' %}
@@ -148,3 +153,17 @@ clean-container: ## remove Docker container
 
 clean-image: ## remove Docker image
 	-$(DOCKER) image rm $(IMAGE_NAME)
+
+format:
+{%- if cookiecutter.formatter_type == 'black' %}
+	- black scripts
+	- black $(PROJECT_NAME)
+{%- elif cookiecutter.formatter_type == 'autopep8' %}
+	- autopep8 --in-place --recursive scripts
+	- autopep8 --in-place --recursive $(PROJECT_NAME)
+{%- elif cookiecutter.formatter_type == 'yapf' %}
+	- yapf --in-place --recursive scripts
+	- yapf --in-place --recursive $(PROJECT_NAME)
+{%- elif cookiecutter.formatter_type == '' %}
+	echo "Formatter is not set."
+{% endif %}
